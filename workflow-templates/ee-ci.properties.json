@@ -1,0 +1,13 @@
+{
+  "name": "Ellucian Experience Extenions CI Workflow",
+  "description": "CI Workflow for deploying Ellucian Experience Extensions to your Ellucian Experience site on pushes into your main branch.",
+  "iconName": "octicon server",
+  "categories": [
+      "continuous-integration",
+      "deployment",
+      "React"
+  ],
+  "filePatterns": [
+      "./**/*extension.js$"
+  ]
+}

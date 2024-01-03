@@ -1,0 +1,48 @@
+name: "🚀 Deploy EE Extension"
+on:
+  push:
+    # add any additional branches here if you wish to push to a non-prod environment
+    # for each non-prod env, create an environment of the same name and add the required secrets
+    branches: [ $default-branch ]
+    
+jobs: 
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      # this line sets the "environment" and defines which secrets to use. 
+      # each branch should have an environment that represents an EE environment. 
+      # https://github.com/%ORG%/%REPO%/settings/environments 
+      name: ${{ github.ref_name }}
+      # This is optional, and requires you to setup the repo variables EE_PRD_URL and EE_TST_URL
+      # If you do set these up, you can click directly into EE from the repo homepage and track deploys.
+      url: ${{ github.ref_name == '$default-branch' && vars.EE_PRD_URL || vars.EE_TST_URL }}
+    env:
+      # see the ellucian experience extensions docs for more info on how to get these variables
+      # set these secrets in your repositories env settings: https://github.com/%ORG%/%REPO%/settings/environments
+      EXPERIENCE_EXTENSION_UPLOAD_TOKEN: "${{ secrets.EXPERIENCE_EXTENSION_UPLOAD_TOKEN }}"
+      EXPERIENCE_EXTENSION_ENABLED: "${{ secrets.EXPERIENCE_EXTENSION_ENABLED }}"
+      EXPERIENCE_EXTENSION_ENVIRONMENTS: "${{ secrets.EXPERIENCE_EXTENSION_ENVIRONMENTS }}"
+    defaults:
+      run:
+        working-directory: ./extension
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v3
+
+      - name: print environment
+        shell: bash
+        run: "echo 'deploying card to ${{ github.ref_name }}'"
+
+      - name: setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: install deps
+        run: npm ci
+
+      - name: run linter
+        run: npm run lint
+
+      - name: deploy card
+        run: npm run deploy-prod

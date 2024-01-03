@@ -1,6 +1,6 @@
 {
-  "name": "Ellucian Experience Extenions CI Workflow",
-  "description": "CI Workflow for deploying Ellucian Experience Extensions to your Ellucian Experience site on pushes into your main branch.",
+  "name": "Ellucian Experience Extensions CI Workflow",
+  "description": "automate testing then deploying your extensions to ellucian experience.",
   "iconName": "octicon server",
   "categories": [
       "continuous-integration",

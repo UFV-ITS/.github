@@ -4,6 +4,8 @@ on:
     # add any additional branches here if you wish to push to a non-prod environment
     # for each non-prod env, create an environment of the same name and add the required secrets
     branches: [ $default-branch ]
+    paths:
+      - "extension/**"
     
 jobs: 
   deploy:

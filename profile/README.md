@@ -12,4 +12,4 @@ For technical support, please reach out to the IT Service Desk:
 
 ### About This Organization
 
-We use this space to develop internal tools, web apps, and integrations that support univiersity operations. Most repositories are for internal development, but some repositories may be public and free-to-use by the wider university community.
+We use this space to develop internal tools, web apps, and integrations that support university operations. Most repositories are for internal development, but some repositories may be public and free-to-use by the wider university community.

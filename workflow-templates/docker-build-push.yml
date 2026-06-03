@@ -5,7 +5,7 @@ on:
     inputs:
       runner:
         type: string
-        default: [self-hosted, Linux] # our self-hoster runner
+        default: "[self-hosted, Linux]" # our self-hoster runner
 
       # this is the name of the image that will be built and pushed, such as "my-image" or "my-org/my-image". By default, it uses the repository name as the image name.
       image_name:

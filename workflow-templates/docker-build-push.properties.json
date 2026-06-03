@@ -1,0 +1,13 @@
+{
+    "name": "Build and Push Docker Image",
+    "description": "Reusable workflow to build and push a Docker image to a container registry. This workflow can be called from other workflows in your repository, allowing you to easily integrate Docker image building and pushing into your CI/CD pipelines.",
+    "iconName": "container",
+    "categories": [
+        "docker",
+        "continuous-integration",
+        "deployment"
+    ],
+    "filePatterns": [
+        "./**/Dockerfile"
+    ]
+}

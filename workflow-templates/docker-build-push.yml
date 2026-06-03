@@ -1,0 +1,88 @@
+name: "Build and Push Docker Image"
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        type: string
+        default: [self-hosted, Linux] # our self-hoster runner
+
+      # this is the name of the image that will be built and pushed, such as "my-image" or "my-org/my-image". By default, it uses the repository name as the image name.
+      image_name:
+        required: false
+        type: string
+        default: ${{ github.repository }}
+
+      registry:
+        required: false
+        type: string
+        default: "ghcr.io"
+
+      docker_context:
+        required: false
+        type: string
+        default: "."
+
+      dockerfile:
+        required: false
+        type: string
+        default: "Dockerfile"
+
+      # this is useful for cases where you want to build the image but not push it on every workflow run, such as in a PR validation workflow.
+      docker_push:
+        required: false
+        type: boolean
+        default: true
+
+    secrets:
+      registry_token:
+        required: true # use ${{ secrets.GITHUB_TOKEN }} from the caller for GitHub Container Registry
+
+# this ensures that if multiple runs of this workflow are triggered in a short time (such as from a PR with many commits), only the most recent run will execute.
+# this is helpful to avoid unnecessary builds and pushes of Docker images.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-push:
+    runs-on: ${{ inputs.runner }}
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: set up docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: log into registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ inputs.registry }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.registry_token }}
+
+      - name: generate metadata for Docker image
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ inputs.registry }}/${{ inputs.image_name }}
+          tags: |
+            type=sha,format=long
+            type=ref,event=branch
+            type=ref,event=tag
+
+      - name: build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ inputs.docker_context }}
+          file: ${{ inputs.dockerfile }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

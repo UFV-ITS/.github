@@ -1,0 +1,57 @@
+# This is a configuration file for Codex, the AI coding assistant.
+# It defines the model to use, permissions, and project trust levels.
+#
+# What you need to do:
+# 1. Get Codex
+# 2. Replace any existing `~/.codex/config.toml` with this file
+# 3. Add your workspace folder under `[permissions.secure.workspace_roots]`
+
+# Linux/WSL prerequisite:
+# Ubuntu/Debian: sudo apt install bubblewrap
+# Fedora:        sudo dnf install bubblewrap
+
+model = "gpt-5.6-luna"
+model_reasoning_effort = "medium"
+
+allow_login_shell = false
+approval_policy = "on-request"
+default_permissions = "secure"
+
+[shell_environment_policy]
+inherit = "core"
+ignore_default_excludes = false
+experimental_use_profile = false
+
+[permissions.secure]
+description = "Project editing with restricted network access."
+extends = ":workspace"
+
+[permissions.secure.filesystem]
+glob_scan_max_depth = 6
+
+[permissions.secure.filesystem.":workspace_roots"]
+"." = "write"
+
+# Deny access to build artifacts
+"dist" = "deny"
+"**/dist" = "deny"
+
+# Deny access to logs as they may contain sensitive information.
+"logs" = "deny"
+"**/logs" = "deny"
+
+".env" = "deny"
+".env.*" = "deny"
+"**/.env" = "deny"
+"**/.env.*" = "deny"
+"**/*.key" = "deny"
+"**/*.pem" = "deny"
+"**/id_rsa" = "deny"
+"**/.ssh/**" = "deny"
+
+
+[permissions.secure.workspace_roots]
+# We have a script that can generate this list for you so alaways keep this section at the bottom for the script
+# your workspace roots go here, for example:
+# "/home/<user>/repos/my-project-1" = true
+# "/home/<user>/repos/my-project-2" = true

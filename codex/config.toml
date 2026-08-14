@@ -51,7 +51,8 @@ glob_scan_max_depth = 6
 
 
 [permissions.secure.workspace_roots]
-# We have a script that can generate this list for you so alaways keep this section at the bottom for the script
-# your workspace roots go here, for example:
+# We have a script that can generate this list for you so always keep this section at the bottom for the script
+#
+# Your workspace roots go here, for example:
 # "/home/<user>/repos/my-project-1" = true
 # "/home/<user>/repos/my-project-2" = true

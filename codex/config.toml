@@ -25,7 +25,7 @@ description = "Project editing with outbound network access enabled (e.g., for n
 extends = ":workspace"
 
 [permissions.secure.network]
-# Permit outbound access for npm package installation commands.
+# Permit outbound network access (needed for npm package installation commands).
 enabled = true
 
 [permissions.secure.filesystem]

@@ -11,7 +11,7 @@ CONFIG_FILE="${CONFIG_FILE:-$HOME/.codex/config.toml}"
 grep -q '^\[permissions\.secure\.workspace_roots\]$' "$CONFIG_FILE" || printf '\n[permissions.secure.workspace_roots]\n# We have a script that can generate this list for you so always keep this section at the bottom for the script\n#\n# Your workspace roots go here, for example:\n# "/home/<user>/repos/my-project-1" = true\n# "/home/<user>/repos/my-project-2" = true\n\n' >> "$CONFIG_FILE"
 
 while IFS= read -r -d '' dir; do
-line="\"$dir\" = true"
-grep -Fxq "$line" "$CONFIG_FILE" || printf '%s\n' "$line" >> "$CONFIG_FILE"
+  line="\"$dir\" = true"
+  grep -Fxq "$line" "$CONFIG_FILE" || printf '%s\n' "$line" >> "$CONFIG_FILE"
 
 done < <(find "$TARGET_DIR" -maxdepth 1 -mindepth 1 -type d -print0)

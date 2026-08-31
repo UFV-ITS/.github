@@ -1,16 +1,14 @@
-# This is a configuration file for Codex, the AI coding assistant.
+# This is a configuration file for running Codex securely
 # It defines the model to use, permissions, and project trust levels.
 #
-# What you need to do:
-# 1. Get Codex
-# 2. Replace any existing `~/.codex/config.toml` with this file
-# 3. Add your workspace folder under `[permissions.secure.workspace_roots]`
+# What you need to edit:
+# 1. Add your workspace folder under `[permissions.secure.workspace_roots]`
 
 # Linux/WSL prerequisite:
 # Ubuntu/Debian: sudo apt install bubblewrap
 # Fedora:        sudo dnf install bubblewrap
 
-model = "gpt-5.6-luna"
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 
 allow_login_shell = false
@@ -23,8 +21,12 @@ ignore_default_excludes = false
 experimental_use_profile = false
 
 [permissions.secure]
-description = "Project editing with restricted network access."
+description = "Project editing with outbound network access enabled (e.g., for npm installs)."
 extends = ":workspace"
+
+[permissions.secure.network]
+# Permit outbound network access (needed for npm package installation commands).
+enabled = true
 
 [permissions.secure.filesystem]
 glob_scan_max_depth = 6
@@ -48,7 +50,6 @@ glob_scan_max_depth = 6
 "**/*.pem" = "deny"
 "**/id_rsa" = "deny"
 "**/.ssh/**" = "deny"
-
 
 [permissions.secure.workspace_roots]
 # We have a script that can generate this list for you so always keep this section at the bottom for the script

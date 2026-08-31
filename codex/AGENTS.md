@@ -12,6 +12,7 @@
 - Wrap code that interacts with external systems in try/catch blocks to handle errors gracefully.
 - Use docstrings to document functions, classes, and modules. Include information about parameters, return values, and any exceptions that may be raised.
 - Inline comments should be used sparingly and only when necessary to explain complex logic or decisions. Inline comments should avoid stating the obvious and explain in maximum 2-3 sentences.
+- Always run tests after making changes to ensure that the codebase is functioning as expected.
 
 ## Documentation Practices
 - Document major changes to the application and interactions with external systems under the `docs` directory as `docs/<category>.md`. For example if you make a major change to the architecture, update the `docs/architecture.md` file.

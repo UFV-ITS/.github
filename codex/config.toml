@@ -21,7 +21,7 @@ ignore_default_excludes = false
 experimental_use_profile = false
 
 [permissions.secure]
-description = "Project editing with restricted network access."
+description = "Project editing with outbound network access enabled (e.g., for npm installs)."
 extends = ":workspace"
 
 [permissions.secure.network]
